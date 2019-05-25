@@ -15,7 +15,7 @@
 
 ## About
 
-Terraform code that provisions a demo environment for [Oracle Java Cloud Service (JCS)] using [Oracle Cloud Infrastructure (OCI)][oci] as the IaaS platform. The infrastructure schema's database for the JCS will reside in an [OCI virtual DB System][virtual dbsystem].
+Terraform code that provisions a demo environment for [Oracle Java Cloud Service (JCS)][jcs] using [Oracle Cloud Infrastructure (OCI)][oci] as the IaaS platform. The infrastructure schema's database for the JCS will reside in an [OCI virtual DB System][virtual dbsystem].
 
 The multi-layer network architecture deployed is based on the following [Oracle Cloud Solutions][oracle_cloud_solutions]:
 
