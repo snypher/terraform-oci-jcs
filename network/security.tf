@@ -2,21 +2,15 @@
 resource "oci_core_security_list" "nw_sl_data" {
   compartment_id = "${var.compartment_ocid}"
   egress_security_rules = [
-    #{
-    #  destination = "${var.oracle_service_label}"
-    #  protocol = "${var.tcp_protocol}"
-    #  destination_type = "${var.service_destination_type}"
-    #  stateless = "${var.egress_stateless}"
-    #  tcp_options {
-    #    max = "${var.oracle_service_port}"
-    #    min = "${var.oracle_service_port}"
-    #  }
-    #}
     {
-      destination = "${var.anywhere_cidr}"
-      protocol = "${var.all_protocol}"
-      destination_type = "${var.default_destination_type}"
+      destination = "${var.oracle_service_label}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.service_destination_type}"
       stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.oracle_service_port}"
+        min = "${var.oracle_service_port}"
+      }
     }
   ]
   ingress_security_rules = [
@@ -32,8 +26,7 @@ resource "oci_core_security_list" "nw_sl_data" {
     },
     {
       protocol = "${var.tcp_protocol}"
-      #source = "${var.subnet_admin_cidr}"
-      source = "${var.anywhere_cidr}"
+      source = "${var.subnet_admin_cidr}"
       source_type = "${var.default_source_type}"
       stateless = "${var.ingress_stateless}"
       tcp_options {
@@ -83,20 +76,6 @@ resource "oci_core_security_list" "nw_sl_app" {
       source = "${var.subnet_lbaas_cidr}"
       source_type = "${var.default_source_type}"
       stateless = "${var.ingress_stateless}"
-      tcp_options {
-        max = "${var.http_port}"
-        min = "${var.http_port}"
-      }
-    },
-    {
-      protocol = "${var.tcp_protocol}"
-      source = "${var.subnet_lbaas_cidr}"
-      source_type = "${var.default_source_type}"
-      stateless = "${var.ingress_stateless}"
-      tcp_options {
-        max = "${var.https_port}"
-        min = "${var.https_port}"
-      }
     },
     {
       protocol = "${var.tcp_protocol}"
@@ -124,7 +103,7 @@ resource "oci_core_security_list" "nw_sl_admin" {
   compartment_id = "${var.compartment_ocid}"
   egress_security_rules = [
     {
-      destination = "${var.anywhere_cidr}"
+      destination = "${var.vcn_cidr}"
       protocol = "${var.all_protocol}"
       destination_type = "${var.default_destination_type}"
       stateless = "${var.egress_stateless}"
@@ -133,31 +112,22 @@ resource "oci_core_security_list" "nw_sl_admin" {
   ingress_security_rules = [
     {
       protocol = "${var.tcp_protocol}"
-      source = "${var.anywhere_cidr}"
-      source_type = "${var.default_source_type}"
-      stateless = "${var.ingress_stateless}"
-      tcp_options {
-        max = "${var.ssh_port}"
-        min = "${var.ssh_port}"
-      }
-    },
-    {
-      protocol = "${var.icmp_protocol}"
       source = "${var.vcn_cidr}"
       source_type = "${var.default_source_type}"
       stateless = "${var.ingress_stateless}"
-      icmp_options {
-        type = "${var.icmp_type}"
+      tcp_options {
+        max = "${var.https_port}"
+        min = "${var.https_port}"
       }
     },
     {
-      protocol = "${var.icmp_protocol}"
-      source = "${var.anywhere_cidr}"
+      protocol = "${var.tcp_protocol}"
+      source = "${var.vcn_cidr}"
       source_type = "${var.default_source_type}"
       stateless = "${var.ingress_stateless}"
-      icmp_options {
-        type = "${var.icmp_type}"
-        code = "${var.icmp_code}"
+      tcp_options {
+        max = "${var.http_port}"
+        min = "${var.http_port}"
       }
     }
   ]
@@ -170,7 +140,7 @@ resource "oci_core_security_list" "nw_sl_lbaas" {
   compartment_id = "${var.compartment_ocid}"
   egress_security_rules = [
     {
-      destination = "${var.anywhere_cidr}"
+      destination = "${var.vcn_cidr}"
       protocol = "${var.all_protocol}"
       destination_type = "${var.default_destination_type}"
       stateless = "${var.egress_stateless}"
@@ -195,25 +165,6 @@ resource "oci_core_security_list" "nw_sl_lbaas" {
       tcp_options {
         max = "${var.https_port}"
         min = "${var.https_port}"
-      }
-    },
-    {
-      protocol = "${var.icmp_protocol}"
-      source = "${var.vcn_cidr}"
-      source_type = "${var.default_source_type}"
-      stateless = "${var.ingress_stateless}"
-      icmp_options {
-        type = "${var.icmp_type}"
-      }
-    },
-    {
-      protocol = "${var.icmp_protocol}"
-      source = "${var.anywhere_cidr}"
-      source_type = "${var.default_source_type}"
-      stateless = "${var.ingress_stateless}"
-      icmp_options {
-        type = "${var.icmp_type}"
-        code = "${var.icmp_code}"
       }
     }
   ]
