@@ -1,5 +1,7 @@
 variable "tenancy_ocid" {}
 
+variable "tenancy" {}
+
 variable "user_ocid" {}
 
 variable "fingerprint" {}
@@ -227,14 +229,14 @@ variable "db_system_hostname_prefix" {
 
 variable "db_system_cluster_name_prefix" {
   type = "string"
-  default = "cl"
+  default = "clu"
 }
 
 variable "db_system_shape" {
   type = "string"
 }
 
-variable "db_system_ssh_public_keys" {
+variable "db_system_ssh_public_keys_file" {
   type = "string"
 }
 
@@ -263,5 +265,83 @@ variable "db_system_disk_redundancy" {
 
 variable "db_system_license_model" {
   type = "string"
+}
+
+variable "identity_user" {
+  type = "string"
+}
+
+variable "identity_password" {
+  type = "string"
+}
+
+variable "identity_service_id" {
+  type = "string"
+}
+
+variable "java_endpoint" {
+  type = "string"
+}
+
+variable "jcs_name_prefix" {
+  type = "string"
+}
+
+variable "jcs_ssh_public_key_file" {
+  type = "string"
+}
+
+variable "jcs_edition" {
+  type = "string"
+}
+
+variable "jcs_service_version" {
+  type = "string"
+}
+
+variable "jcs_bring_your_own_license" {
+  type = "string"
+}
+
+variable "jcs_shape" {
+  type = "string"
+}
+
+variable "jcs_managed_server_count" {
+  type = "string"
+}
+
+variable "jcs_cluster_type" {
+  type = "string"
+  default = "APPLICATION_CLUSTER"
+}
+
+variable "jcs_database_user" {
+  type = "string"
+  default = "SYS"
+}
+
+variable "jcs_admin_user" {
+  type = "string"
+  default = "weblogic"
+}
+
+variable "jcs_admin_password" {
+  type = "string"
+}
+
+variable "jcs_availability_domain" {
+  type = "string"
+  default = "0"
+}
+
+variable "jcs_load_balancing_policy" {
+  type = "string"
+  default = "ROUND_ROBIN"
+}
+
+variable "jcs_enable_admin_console" {
+  type = "string"
+  default = "true"
 }
 

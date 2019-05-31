@@ -1,31 +1,40 @@
-#######################
-### Required Values ###
-#######################
+###########################################
+### Required Values & IAM Module Values ###
+###########################################
 
 # Properties required to authenticate to the OCI API.
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm
-tenancy_ocid="YOU-NEED-TO-PUT-HERE-A-VALID-TENANCY-OCID>"
-user_ocid="YOU-NEED-TO-PUT-HERE-A-VALID-USER-OCID"
-fingerprint="YOU-NEED-TO-PUT-HERE-A-VALID-KEY-FINGERPRINT"
-private_key_path="YOU-NEED-TO-PUT-HERE-A-VALID-PRIVATE-KEY-FILE-IN-PEM-FORMAT"
-private_key_password="IS-OPTIONAL-TO-USE-A-PRIVATE-KEY-PASSPHRASE-HERE"
+tenancy_ocid="INSERT_HERE_YOUR_OCI_TENANT_OCID"
+tenancy="INSERT_HERE_YOUR_CLOUD_ACCOUNT_NAME"
+user_ocid="INSERT_HERE_YOUR_OCI_USER_OCID"
+fingerprint="INSERT_HERE_YOUR_RSA_KEY_FINGERPRINT"
+private_key_path="INSERT_HERE_THE_FULL_PATH_OF_YOUR_RSA_PRIVATE_KEY_FILE"
+private_key_password=""
 
-# Define the OCI region where we are going to work
+# See region info at https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm
-home_region="YOU-NEED-TO-PUT-HERE-A-VALID-OCI-REGION"
-region="YOU-NEED-TO-PUT-HERE-A-VALID-OCI-REGION"
+home_region="INSERT_HERE_YOUR_OCI_HOME_REGION"
+region="INSERT_HERE_THE_OCI_REGION_WHERE_YOU_WANT_TO_PROVISION_OCI_RESOURCES"
 
-# A short identifier for the service, which is used as a prefix for naming of compartments and other resources.
+# A short identifier for the project/application, which is used as a prefix for naming of all resources.
 app_tag="Demo"
 
-# The environment/grouping to deploye to: test, dev, prod, or uat
+# The environment/grouping to deploy to: test, dev, prod, or uat
 environment="dev"
 
-#######################
-### Optional Values ###
-#######################
+#############################
+### Network Module Values ###
+#############################
+
+# Network topology is based on following Oracle Cloud Solutions
+# Learn about setting up the infrastructure and platform resources for Java EE applications
+#   https://docs.oracle.com/en/solutions/learn-topology-for-java-apps/index.html#GUID-237E7157-41D9-46DC-A4A6-C015E0A39981
+# Learn about creating a secure network topology on Oracle Cloud Infrastructure
+#   https://docs.oracle.com/en/solutions/learn-secure-network-topology/index.html#GUID-1119D16E-AF9F-4C7F-816B-C19FCAAEA70D
+# Create a multitier network topology on Oracle Cloud Infrastructure
+#   https://docs.oracle.com/en/solutions/multi-tenant-topology-using-terraform/index.html#GUID-6979792A-E9D0-476A-9728-4BBEB666B11A
 
 # See variables.tf for additional variables that can be set.
 
@@ -44,7 +53,7 @@ subnet_app_cidr="192.168.1.32/28"
 # Define the type of app layer subnet
 # A true value will define the subnet as private
 # A false value will define the subnet as public
-subnet_app_private="false"
+subnet_app_private="true"
 # Define the DNS label used for the app layer subnet
 subnet_app_dnslabel="app"
 # Define the base CIDR for the load balancer layer subnet
@@ -70,17 +79,20 @@ dhcp_options_domain_names="oraclevcn.com"
 # Define the destination CIDR_BLOCK for the anywhere access (usually internet)
 anywhere_cidr="0.0.0.0/0"
 # Define the destination CIDR label for the oracle services accessed through a service gateway
+# For example: you can point to all IAD (Asburn) region services through the VCN service gateway
+#   CIDR label: all-iad-services-in-oracle-services-network
 # Reference:
 #  https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/servicegateway.htm
 #  https://cloud.oracle.com/networking/service-gateway/supported-services
 #  https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/ListServices
-oracle_service_label="YOU-NEED-TO-PUT-HERE-A-VALID-OCI-SERVICE-CIDR-LABEL"
+oracle_service_label="INSERT_HERE_THE_ORACLE_SERVICE_CIDR_LABEL_YOU_WOULD_LIKE_TO_USE"
 # Define the OCID for the oracle service type accessed through a service gateway
+# By default we will point all IAD (Asburn) region services through the VCN service gateway
 # Reference:
 #  https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/servicegateway.htm
 #  https://cloud.oracle.com/networking/service-gateway/supported-services
 #  https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/ListServices
-oracle_service_ocid="YOU-NEED-TO-PUT-HERE-A-VALID-OCI-SERVICE-TYPE-OCID"
+oracle_service_ocid="INSERT_HERE_THE_OCID_OF_THE_SERVICE_TYPE_RELATED_WITH_THE_ORACLE_SERVICE_CIDR_LABEL"
 # Define the default destination type for route rules and security rules
 default_destination_type="CIDR_BLOCK"
 # Define the default source type for route rules and security rules
@@ -106,15 +118,20 @@ icmp_code="4"
 oracle_service_port="443"
 # Define TCP/1521 as the port used to access Oracle Databases on data Layer
 database_port="1521"
-# Define TCP/22 as the port used for SSH access to the app layer
+# Define TCP/22 as the port used for SSH access to the any private layer
 ssh_port="22"
 # Define TCP/80 as the port used for HTTP access to the load balancer layer
 http_port="80"
 # Define TCP/443 as the port used for SSH access to the load balancer layer
 https_port="443"
+
+##############################
+### Database Module Values ###
+##############################
+
 # Define the Availability Domain where will reside the DB System instance
-# Supported Values are: 0, 1 or 2
-db_system_availability_domain="2"
+# Supported Values are: 1, 2 or 3
+db_system_availability_domain="3"
 # Define the Oracle Database Edition that applies to all the databases on the DB system
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#editionsandversions
@@ -136,13 +153,13 @@ db_system_database_edition="ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/launchingDB.htm#console
 #   https://docs.cloud.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/db/version/list.html
 #   https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions
-db_system_db_version="12.2.0.1"
+db_system_db_version="12.2.0.1.190416"
 # Define the password for SYS, SYSTEM, PDB Admin and TDE Wallet.
 # The password must be at least nine characters and contain at least two uppercase, 
 # two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/launchingDB.htm#DefaultOptionsfortheInitialDatabase
-db_system_admin_password="YOU-NEED-TO-PUT-HERE-A-STRONG-PASSWORD"
+db_system_admin_password="INSERT_HERE_A_STRONG_PASSWORD_FOR_DB_SYS_USER"
 # Define the source used for first database created on the DB system.
 # We always use NONE because we are creating new databases
 db_system_source="NONE"
@@ -199,7 +216,7 @@ db_system_hostname_prefix="dbs"
 # Valid only for Exadata and 2-node RAC virtual machine DB systems
 # The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted.
 # The cluster name can be no longer than 11 characters and is not case sensitive
-db_system_cluster_name_prefix="cl"
+db_system_cluster_name_prefix="c"
 # Define the shape for the DB System
 # The shape determines resources allocated to the DB system:
 #   - For virtual machine shapes, the number of CPU cores and memory
@@ -210,12 +227,13 @@ db_system_cluster_name_prefix="cl"
 #   https://docs.cloud.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/db/system-shape/list.html
 #   https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes
 db_system_shape="VM.Standard2.2"
-# Define the SSH public keys to be installed in the DB system public nodes.
+# Define the SSH public key file to be installed in the DB system public nodes.
 # The public key portion of the key pair to use for SSH access to the DB system. Must be in OpenSSH format.
 # Multiple public keys can be provided. The length of the combined keys cannot exceed 40,000 characters.
+# The input file could include one public key per line
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/launchingDB.htm#Prerequisites
-db_system_ssh_public_keys="YOU-NEED-TO-PUT-HERE-A-VALID-PUBLIC-KEY-IN-OPENSSH-FORMAT"
+db_system_ssh_public_keys_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY_FILE_IN_OPENSSH_FORMAT"
 # Define number of CPU cores to enable for a bare metal or Exadata DB system
 # The service ignores this value when a VM shape is specified.
 # The valid values depend on the specified shape:
@@ -263,7 +281,118 @@ db_system_data_storage_size_in_gb="256"
 db_system_disk_redundancy="HIGH"
 # Define the Oracle license model that applies to all the databases on the DB system.
 # Supported values are: LICENSE_INCLUDED or BRING_YOUR_OWN_LICENSE
-# Default value is: LICENSE_INCLUDED
+# Default value is: BRING_YOUR_OWN_LICENSE
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/launchingDB.htm#ManagingBareMetalandVirtualMachineDBSystems
-db_system_license_model="LICENSE_INCLUDED"
+db_system_license_model="BRING_YOUR_OWN_LICENSE"
+
+##########################
+### Java Module Values ###
+##########################
+
+# Properties required to authenticate to the Oracle PaaS API
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jsrmr/obtain-account-information.html
+#   https://docs.oracle.com/en/cloud/paas/identity-cloud/uaids/find-your-oracle-identity-cloud-service-tenant-name.html
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jsrmr/SendRequests.html
+identity_user="INSERT_HERE_YOUR_IDCS_USERNAME"
+identity_password="INSERT_HERE_YOUR_IDCS_USER_PASSWORD"
+identity_service_id="INSERT_HERE_YOUR_IDENTITY_SERVICE_ID"
+java_endpoint="INSERT_HERE_THE_REST_ENDPOINT_FOR_JAVA_CLOUD_SERVICE"
+
+# Define the Java Cloud Service (JCS) instance name prefix
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-53F70C60-65B2-47D7-8549-4F63DE797ECE
+jcs_name_prefix="JCS"
+
+# Define the edition for the service instance.
+# Possible values are SE, EE, or SUITE
+# References:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-53F70C60-65B2-47D7-8549-4F63DE797ECE
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/oracle-java-cloud-service.html#GUID-5BEB5C7A-DAEE-40C6-BDE0-819E10D62848
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#edition
+jcs_edition="SUITE"
+
+# Define the Oracle WebLogic Server software version
+# Valid values are: 12cRelease213, 12cRelease212, 12cR3, or 11gR1
+# References:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/oracle-java-cloud-service.html#GUID-D0068D72-9546-4FE0-8972-ECE29D39122C
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-53F70C60-65B2-47D7-8549-4F63DE797ECE
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#service_version
+jcs_service_version="12cRelease213"
+
+# Define if BYOL will be used as the Oracle license model for Java Cloud Service (JCS) instance
+# Supported values are: true or false
+# Reference:
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#bring_your_own_license
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-53F70C60-65B2-47D7-8549-4F63DE797ECE
+jcs_bring_your_own_license="true"
+
+# Define the Availability Domain where will reside the Java Cloud Service (JCS) instance
+# Supported Values are: 1, 2 or 3
+jcs_availability_domain="3"
+ 
+# Define the SSH public key file to be installed in the Java Cloud Service (JCS) instance.
+# The public key portion of the key pair to use for SSH access to the JCS. Must be in OpenSSH format.
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-490B5301-22F3-4C4D-AE21-B84C99BF3EF3
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#ssh_public_key
+jcs_ssh_public_key_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY_FILE_IN_OPENSSH_FORMAT"
+
+# Define the desired compute shape
+# The shape determines the number of CPUs, amount of memory, and other resources allocated to a newly created instance.
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-66E6C3B5-35EA-47ED-B32D-064FBDA950C6
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#shape
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#shape-2
+jcs_shape="VM.Standard2.2"
+
+# Define the initial number of Managed Servers that you want to provision in this service instance
+# Supported values are: 1, 2, 4
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-66E6C3B5-35EA-47ED-B32D-064FBDA950C6
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#server_count
+jcs_managed_server_count="2"
+
+# Define the Weblogic Cluster Type to create
+# Valid values are APPLICATION_CLUSTER or CACHING_CLUSTER
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-66E6C3B5-35EA-47ED-B32D-064FBDA950C6
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#type
+jcs_cluster_type="APPLICATION_CLUSTER"
+
+# Define the username for the database administrator
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-FBDD3699-7CBB-4D7B-B10A-62ADEC7BEE25
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#database
+jcs_database_user="SYS"
+
+# Define the username for the WebLogic Server Administrator
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-490B5301-22F3-4C4D-AE21-B84C99BF3EF3
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#admin
+jcs_admin_user="weblogic"
+
+# Define the password for the WebLogic Server Administrator
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-490B5301-22F3-4C4D-AE21-B84C99BF3EF3
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#admin
+jcs_admin_password="INSERT_HERE_A_STRONG_PASSWORD_FOR_WEBLOGIC_SERVER_ADMINISTRATOR"
+
+# Define the policy to use for routing requests to the origin servers of the Oracle managed load balancer
+# Valid values are LEAST_CONN, IP_HASH, or ROUND_ROBIN
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/design-considerations-oracle-java-cloud-service-instance.html#GUID-65723358-1B23-4EDB-811D-7DE5FCF254F5
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-D5DB9693-8E24-4CC7-8717-CA70C78B1552
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#load_balancer
+jcs_load_balancing_policy="ROUND_ROBIN"
+
+# Flag that specifies whether to enable (true) or disable (false) the access rules that control external communication 
+# to the WebLogic Server Administration Console, Fusion Middleware Control, and Load Balancer Consol
+# Default value is: true
+# Reference:
+#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-66E6C3B5-35EA-47ED-B32D-064FBDA950C6
+#   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#enable_admin_console
+jcs_enable_admin_console="true"
+
