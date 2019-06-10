@@ -396,3 +396,70 @@ jcs_load_balancing_policy="ROUND_ROBIN"
 #   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#enable_admin_console
 jcs_enable_admin_console="true"
 
+##############################
+#### Bastion Module Values ###
+##############################
+
+# Define if a compute instance for bastion-admin tasks will be created or not
+# The compute instance will be created on the admin subnet
+# Valid values are: true or false
+# Default value: true
+create_bastion="true"
+
+# Define the compute shape that will be used for the bastion-admin instance
+# Valid values are defined by the "shape" attribute of the OCI Compute supported shapes
+# References:
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm
+#   https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/
+#   https://docs.cloud.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/compute/shape/list.html
+bastion_shape="VM.Standard.E2.1"
+
+# Define the source type to use for creation of the bastion-admin compute instance
+# Valid values are: image or bootVolume
+# Default value is: image
+# Reference:
+#   https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/InstanceSourceDetails
+#   https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/InstanceSourceViaImageDetails
+#   https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/InstanceSourceViaBootVolumeDetails
+bastion_source_type="image"
+
+# Define the Operating System for the bastion-admin compute instance
+# Valid values are defined by the "operatingSystem" attribute of the OCI Compute images available
+# A custom image can be used too
+# References:
+#   https://docs.cloud.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/compute/image.html
+#   https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Image/
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm
+#   https://www.terraform.io/docs/providers/oci/d/core_images.html
+bastion_operating_system="Oracle Linux"
+
+# Define the Operating System version for the bastion-admin compute instance
+# Valid values are defined by the "operatingSystemVersion" attribute of the OCI Compute Image selected
+# References:
+#   https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Image/
+#   https://docs.cloud.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/compute/image/list.html
+bastion_operating_system_version="7.6"
+
+# Define the OCID for the custom image or the OCI marketplace provided image used for the bastion-admin compute instance
+# References:
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm
+#   https://docs.cloud.oracle.com/iaas/Content/Marketplace/Tasks/workingwithlistings.htm
+bastion_image_ocid="NONE"
+
+# Define the SSH public key file that will be installed in the bastion-admin compute instance
+# References:
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingkeypairs.htm
+bastion_ssh_public_key_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY_FILE_IN_OPENSSH_FORMAT"
+
+# Define the Availability Domain where will reside the bastion compute instance
+# Supported Values are: 1, 2 or 3
+bastion_availability_domain="3"
+
+# Define the hostname (short part) of the bastion-admin compute instance
+# References:
+#   https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm
+#   https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm
+bastion_hostname_label="bastion-priv" 

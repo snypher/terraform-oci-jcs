@@ -345,3 +345,47 @@ variable "jcs_enable_admin_console" {
   default = "true"
 }
 
+variable "create_bastion" {
+  type = "string"
+  default = "true"
+}
+
+variable "bastion_availability_domain" {
+  type = "string"
+  default = "0"
+}
+
+variable "bastion_shape" {
+  type = "string"
+  default = "VM.Standard.E2.1"
+}
+
+variable "bastion_operating_system" {
+  type = "string"
+  default = "Oracle Linux"
+}
+
+variable "bastion_operating_system_version" {
+  type = "string"
+  default = "7.6"
+}
+
+variable "bastion_image_ocid" {
+  type = "string"
+  default = "NONE"
+}
+
+variable "bastion_ssh_public_key_file" {
+  type = "string"
+}
+
+variable "bastion_hostname_label" {
+  type = "string"
+  default = "bastion"
+}
+
+variable "bastion_source_type" {
+  type = "string"
+  default = "image"
+}
+

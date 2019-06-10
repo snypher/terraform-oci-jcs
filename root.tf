@@ -133,3 +133,23 @@ module "java" {
   dbsystem_subnet_domain_name = "${module.network.data_subnet_domain_name}"
 }
 
+module "bastion" {
+  source = "./bastion"
+  tenancy_ocid = "${var.tenancy_ocid}"
+  region = "${var.region}"
+  compartment_ocid = "${module.iam.cpt_admin_id}"
+  app_tag = "${var.app_tag}"
+  environment = "${var.environment}"
+  ad_list = "${data.template_file.ad_names.*.rendered}"
+  create_bastion = "${var.create_bastion}"
+  bastion_availability_domain = "${var.bastion_availability_domain}"
+  bastion_shape = "${var.bastion_shape}"
+  bastion_operating_system = "${var.bastion_operating_system}"
+  bastion_operating_system_version = "${var.bastion_operating_system_version}"
+  bastion_image_ocid = "${var.bastion_image_ocid}"
+  bastion_subnet_id = "${module.network.admin_subnet_id}"
+  bastion_ssh_public_key = "${file(var.bastion_ssh_public_key_file)}"
+  bastion_hostname_label = "${var.bastion_hostname_label}"
+  bastion_source_type = "${var.bastion_source_type}"
+}
+
