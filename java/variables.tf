@@ -20,7 +20,7 @@ variable "environment" {}
 variable "region" {}
 
 variable "ad_list" {
-  type = "list"
+  type = list
 }
 
 variable "identity_user" {}
@@ -70,6 +70,8 @@ variable "jcs_admin_password" {}
 variable "jcs_storage_username" {}
 
 variable "jcs_storage_user_token" {}
+
+variable "jcs_create_lb" {}
 
 variable "jcs_load_balancing_policy" {}
 

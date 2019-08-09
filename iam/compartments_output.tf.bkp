@@ -46,35 +46,3 @@ output "cpt_database_name" {
   value = oci_identity_compartment.cpt_database.name
 }
 
-output "group_psm_id" {
-  value = oci_identity_group.grp_psm.id
-}
-
-output "group_psm_name" {
-  value = oci_identity_group.grp_psm.name
-}
-
-output "user_jcs_id" {
-  value = oci_identity_user.usr_jcs.id
-}
-
-output "user_jcs_name" {
-  value = oci_identity_user.usr_jcs.name
-}
-
-output "user_jcs_token_id" {
-  value = oci_identity_auth_token.usr_jcs_token.id
-}
-
-output "user_jcs_token" {
-  value = oci_identity_auth_token.usr_jcs_token.token
-}
-
-output "psm_env_policy_id" {
-  value = oci_identity_policy.psm_env_policy.id
-}
-
-output "psm_env_policy_name" {
-  value = oci_identity_policy.psm_env_policy.name
-}
-

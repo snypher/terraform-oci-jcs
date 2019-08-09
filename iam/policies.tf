@@ -1,5 +1,5 @@
 resource "oci_identity_policy" "psm_env_policy" {
-  provider = "oci.home"
+  #provider = "oci.home"
   name           = "IAM_Policy_PSM_${var.environment}_${var.app_tag}"
   description    = "PSM Policy for ${var.app_tag} in ${var.environment} environment"
   compartment_id = "${oci_identity_compartment.cpt_env.id}"

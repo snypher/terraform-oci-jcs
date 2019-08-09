@@ -1,6 +1,6 @@
 # Create the OCI API-only user to access Object Storage Bucket for JCS backups
 resource "oci_identity_user" "usr_jcs" {
-  provider = "oci.home"
+  #provider = "oci.home"
 
   compartment_id = "${var.tenancy_ocid}"
   description    = "API-only user for ${var.app_tag} JCS instance in ${var.environment} environment"
@@ -9,7 +9,7 @@ resource "oci_identity_user" "usr_jcs" {
 
 # Define the capabilities for the JCS OCI API-only user
 resource "oci_identity_user_capabilities_management" "usr_jcs" {
-  provider = "oci.home"
+  #provider = "oci.home"
   user_id  = "${oci_identity_user.usr_jcs.id}"
 
   can_use_api_keys             = true
@@ -21,7 +21,7 @@ resource "oci_identity_user_capabilities_management" "usr_jcs" {
 
 # Create the Auth Token (swift password) for the OCI API-only user
 resource "oci_identity_auth_token" "usr_jcs_token" {
-  provider = "oci.home"
+  #provider = "oci.home"
 
   description = "Auth Token (swift auth) to access object storage service for JCS service backups"
   user_id     = "${oci_identity_user.usr_jcs.id}"

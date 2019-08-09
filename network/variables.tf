@@ -78,3 +78,9 @@ variable "http_port" {}
 
 variable "https_port" {}
 
+variable "wls_admin_port" {}
+
+variable "wls_sample_port" {}
+
+variable "jcs_create_lb" {}
+

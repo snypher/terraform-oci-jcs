@@ -1,0 +1,8 @@
+output "psm_env_policy_id" {
+  value = oci_identity_policy.psm_env_policy.id
+}
+
+output "psm_env_policy_name" {
+  value = oci_identity_policy.psm_env_policy.name
+}
+

@@ -5,43 +5,35 @@
 # Properties required to authenticate to the OCI API.
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm
-tenancy_ocid="INSERT_HERE_YOUR_OCI_TENANT_OCID"
-tenancy="INSERT_HERE_YOUR_CLOUD_ACCOUNT_NAME"
-user_ocid="INSERT_HERE_YOUR_OCI_USER_OCID"
-fingerprint="INSERT_HERE_YOUR_RSA_KEY_FINGERPRINT"
-private_key_path="INSERT_HERE_THE_FULL_PATH_OF_YOUR_RSA_PRIVATE_KEY_FILE"
+tenancy_ocid="ocid1.tenancy.oc1..aaaaaaaa224siply62eyexhxgpsthxywaxe2nsyuchbb6m5gpp3pwu3subla"
+tenancy="tecocloud"
+user_ocid="ocid1.user.oc1..aaaaaaaamimcx2qc4thhhhcshy23zkqdmtyhpaes7hakz64lrw26jjh4vtza"
+fingerprint="0e:82:68:38:7e:89:47:4e:1d:f6:c7:15:19:ae:33:a4"
+private_key_path="/home/kzambran/.oci/keys/oci_api_kzambran_private.pem"
 private_key_password=""
 
 # See region info at https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm
-home_region="INSERT_HERE_YOUR_OCI_HOME_REGION"
-region="INSERT_HERE_THE_OCI_REGION_WHERE_YOU_WANT_TO_PROVISION_OCI_RESOURCES"
+home_region="us-ashburn-1"
+region="us-ashburn-1"
 
-# A short identifier for the project/application, which is used as a prefix for naming of all resources.
-app_tag="Demo"
+# A short identifier for the service, which is used as a prefix for naming of compartments and other resources.
+app_tag="OCC"
 
-# The environment/grouping to deploy to: test, dev, prod, or uat
-environment="dev"
+# The environment/grouping to deploye to: test, dev, prod, or uat
+environment="Dev"
 
 #############################
 ### Network Module Values ###
 #############################
 
-# Network topology is based on following Oracle Cloud Solutions
-# Learn about setting up the infrastructure and platform resources for Java EE applications
-#   https://docs.oracle.com/en/solutions/learn-topology-for-java-apps/index.html#GUID-237E7157-41D9-46DC-A4A6-C015E0A39981
-# Learn about creating a secure network topology on Oracle Cloud Infrastructure
-#   https://docs.oracle.com/en/solutions/learn-secure-network-topology/index.html#GUID-1119D16E-AF9F-4C7F-816B-C19FCAAEA70D
-# Create a multitier network topology on Oracle Cloud Infrastructure
-#   https://docs.oracle.com/en/solutions/multi-tenant-topology-using-terraform/index.html#GUID-6979792A-E9D0-476A-9728-4BBEB666B11A
-
 # See variables.tf for additional variables that can be set.
 
 # Define the base CIDR for the VCN.
-vcn_cidr="192.168.1.0/24"
+vcn_cidr="10.249.96.0/25"
 # Define the base CIDR for the data layer subnet
-subnet_data_cidr="192.168.1.16/28"
+subnet_data_cidr="10.249.96.0/27"
 # Define the type of data layer subnet
 # A true value will define the subnet as private
 # A false value will define the subnet as public
@@ -49,15 +41,15 @@ subnet_data_private="true"
 # Define the DNS label used for the data layer subnet
 subnet_data_dnslabel="data"
 # Define the base CIDR for the app layer subnet
-subnet_app_cidr="192.168.1.32/28"
+subnet_app_cidr="10.249.96.32/27"
 # Define the type of app layer subnet
 # A true value will define the subnet as private
 # A false value will define the subnet as public
-subnet_app_private="true"
+subnet_app_private="false"
 # Define the DNS label used for the app layer subnet
 subnet_app_dnslabel="app"
 # Define the base CIDR for the load balancer layer subnet
-subnet_lbaas_cidr="192.168.1.48/28"
+subnet_lbaas_cidr="10.249.96.64/27"
 # Define the type of load balancer layer subnet
 # A true value will define the subnet as private
 # A false value will define the subnet as public
@@ -65,7 +57,7 @@ subnet_lbaas_private="false"
 # Define the DNS label used for the load balancer layer subnet
 subnet_lbaas_dnslabel="lbaas"
 # Define the base CIDR for the admin layer subnet
-subnet_admin_cidr="192.168.1.64/28"
+subnet_admin_cidr="10.249.96.96/27"
 # Define the type of admin layer subnet
 # A true value will define the subnet as private
 # A false value will define the subnet as public
@@ -83,20 +75,19 @@ dhcp_options_domain_names="oraclevcn.com"
 # Define the destination CIDR_BLOCK for the anywhere access (usually internet)
 anywhere_cidr="0.0.0.0/0"
 # Define the destination CIDR label for the oracle services accessed through a service gateway
-# For example: you can point to all IAD (Asburn) region services through the VCN service gateway
-#   CIDR label: all-iad-services-in-oracle-services-network
+# By default we will point all IAD (Asburn) region services through the VCN service gateway
 # Reference:
 #  https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/servicegateway.htm
 #  https://cloud.oracle.com/networking/service-gateway/supported-services
 #  https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/ListServices
-oracle_service_label="INSERT_HERE_THE_ORACLE_SERVICE_CIDR_LABEL_YOU_WOULD_LIKE_TO_USE"
+oracle_service_label="all-iad-services-in-oracle-services-network"
 # Define the OCID for the oracle service type accessed through a service gateway
 # By default we will point all IAD (Asburn) region services through the VCN service gateway
 # Reference:
 #  https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/servicegateway.htm
 #  https://cloud.oracle.com/networking/service-gateway/supported-services
 #  https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/ListServices
-oracle_service_ocid="INSERT_HERE_THE_OCID_OF_THE_SERVICE_TYPE_RELATED_WITH_THE_ORACLE_SERVICE_CIDR_LABEL"
+oracle_service_ocid="ocid1.service.oc1.iad.aaaaaaaam4zfmy2rjue6fmglumm3czgisxzrnvrwqeodtztg7hwa272mlfna"
 # Define the default destination type for route rules and security rules
 default_destination_type="CIDR_BLOCK"
 # Define the default source type for route rules and security rules
@@ -122,12 +113,20 @@ icmp_code="4"
 oracle_service_port="443"
 # Define TCP/1521 as the port used to access Oracle Databases on data Layer
 database_port="1521"
-# Define TCP/22 as the port used for SSH access to the any private layer
+# Define TCP/22 as the port used for SSH access to the app layer
 ssh_port="22"
 # Define TCP/80 as the port used for HTTP access to the load balancer layer
 http_port="80"
 # Define TCP/443 as the port used for SSH access to the load balancer layer
 https_port="443"
+# Define TCP/7002 as the port used for HTTPS access to the JCS Administration Consoles
+# - Weblogic Server Administration Console
+#   https://<jcs_admin_node:7002/console
+# - Fusion Middleware Control Console
+#   https://<jcs_admin_node:7002/em
+wls_admin_port="7002"
+# Define TCP/8001 as the port used for HTTP access to the JCS Sample Application
+wls_sample_port="8001"
 
 ##############################
 ### Database Module Values ###
@@ -135,7 +134,7 @@ https_port="443"
 
 # Define the Availability Domain where will reside the DB System instance
 # Supported Values are: 1, 2 or 3
-db_system_availability_domain="3"
+db_system_availability_domain="1"
 # Define the Oracle Database Edition that applies to all the databases on the DB system
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#editionsandversions
@@ -163,7 +162,7 @@ db_system_db_version="12.2.0.1.190416"
 # two lowercase, two numbers, and two special characters. The special characters must be _, #, or -.
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/launchingDB.htm#DefaultOptionsfortheInitialDatabase
-db_system_admin_password="INSERT_HERE_A_STRONG_PASSWORD_FOR_DB_SYS_USER"
+db_system_admin_password="B-6a#Zsum_L2k9#KJ7-#2"
 # Define the source used for first database created on the DB system.
 # We always use NONE because we are creating new databases
 db_system_source="NONE"
@@ -214,13 +213,13 @@ db_system_db_workload="OLTP"
 # The final hostname will be a concatenation of this prefix with the environment and app_tag variable
 # The hostname must begin with an alphabetic character, and can contain alphanumeric characters and hyphens (-)
 # The maximum length of the hostname is 16 characters
-db_system_hostname_prefix="dbs"
+db_system_hostname_prefix="dbs-node"
 # Define a prefix for the RAC cluster name of the DB system
 # The final cluster name will be a concatenation of this prefix with the environment and app_tag variable
 # Valid only for Exadata and 2-node RAC virtual machine DB systems
 # The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted.
 # The cluster name can be no longer than 11 characters and is not case sensitive
-db_system_cluster_name_prefix="c"
+db_system_cluster_name_prefix="dbs-clu"
 # Define the shape for the DB System
 # The shape determines resources allocated to the DB system:
 #   - For virtual machine shapes, the number of CPU cores and memory
@@ -230,14 +229,14 @@ db_system_cluster_name_prefix="c"
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#BareMetalandVirtualMachineDBSystems
 #   https://docs.cloud.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/db/system-shape/list.html
 #   https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes
-db_system_shape="VM.Standard2.2"
+db_system_shape="VM.Standard2.4"
 # Define the SSH public key file to be installed in the DB system public nodes.
 # The public key portion of the key pair to use for SSH access to the DB system. Must be in OpenSSH format.
 # Multiple public keys can be provided. The length of the combined keys cannot exceed 40,000 characters.
 # The input file could include one public key per line
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/launchingDB.htm#Prerequisites
-db_system_ssh_public_keys_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY_FILE_IN_OPENSSH_FORMAT"
+db_system_ssh_public_keys_file="/home/kzambran/.ssh/kzambran_oracle.pub"
 # Define number of CPU cores to enable for a bare metal or Exadata DB system
 # The service ignores this value when a VM shape is specified.
 # The valid values depend on the specified shape:
@@ -246,14 +245,14 @@ db_system_ssh_public_keys_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#BareMetalandVirtualMachineDBSystems
 #   https://docs.cloud.oracle.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/db/system-shape/list.html
 #   https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes
-db_system_cpu_core_count="2"
+db_system_cpu_core_count="4"
 # Define the number of nodes to launch for a 2-node RAC virtual machine DB system
 # Supported values are: 1 or 2
 # Default value is: 2
 # Valid only for virtual machine DB system
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#BareMetalandVirtualMachineDBSystems
-db_system_node_count="2"
+db_system_node_count="1"
 # Define the percentage assigned to DATA storage (user data and database files).
 # The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups).
 # Supported values are: 80 or 40
@@ -282,7 +281,7 @@ db_system_data_storage_size_in_gb="256"
 # Reference:
 #   https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#baremetal
 #   https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/datatypes/DbSystemSummary
-db_system_disk_redundancy="HIGH"
+db_system_disk_redundancy="NORMAL"
 # Define the Oracle license model that applies to all the databases on the DB system.
 # Supported values are: LICENSE_INCLUDED or BRING_YOUR_OWN_LICENSE
 # Default value is: BRING_YOUR_OWN_LICENSE
@@ -299,14 +298,14 @@ db_system_license_model="BRING_YOUR_OWN_LICENSE"
 #   https://docs.oracle.com/en/cloud/paas/java-cloud/jsrmr/obtain-account-information.html
 #   https://docs.oracle.com/en/cloud/paas/identity-cloud/uaids/find-your-oracle-identity-cloud-service-tenant-name.html
 #   https://docs.oracle.com/en/cloud/paas/java-cloud/jsrmr/SendRequests.html
-identity_user="INSERT_HERE_YOUR_IDCS_USERNAME"
-identity_password="INSERT_HERE_YOUR_IDCS_USER_PASSWORD"
-identity_service_id="INSERT_HERE_YOUR_IDENTITY_SERVICE_ID"
-java_endpoint="INSERT_HERE_THE_REST_ENDPOINT_FOR_JAVA_CLOUD_SERVICE"
+identity_user="kevin.josue.zambrano@oracle.com"
+identity_password="Y5_#-EPC6wkLiQp.J(b2jj9\"uUM$hE"
+identity_service_id="idcs-e45f28493b2b4594938065be8a791e86"
+java_endpoint="https://jaas.oraclecloud.com"
 
-# Define the Java Cloud Service (JCS) instance name prefix
+# Define the Java Cloud Service (JCS) instance name
 # Reference:
-#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-53F70C60-65B2-47D7-8549-4F63DE797ECE
+#   
 jcs_name_prefix="JCS"
 
 # Define the edition for the service instance.
@@ -334,14 +333,13 @@ jcs_bring_your_own_license="true"
 
 # Define the Availability Domain where will reside the Java Cloud Service (JCS) instance
 # Supported Values are: 1, 2 or 3
-jcs_availability_domain="3"
+jcs_availability_domain="1"
  
 # Define the SSH public key file to be installed in the Java Cloud Service (JCS) instance.
 # The public key portion of the key pair to use for SSH access to the JCS. Must be in OpenSSH format.
 # Reference:
-#   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-490B5301-22F3-4C4D-AE21-B84C99BF3EF3
 #   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#ssh_public_key
-jcs_ssh_public_key_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY_FILE_IN_OPENSSH_FORMAT"
+jcs_ssh_public_key_file="/home/kzambran/.ssh/kzambran_oracle.pub"
 
 # Define the desired compute shape
 # The shape determines the number of CPUs, amount of memory, and other resources allocated to a newly created instance.
@@ -350,14 +348,14 @@ jcs_ssh_public_key_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY_FILE_I
 #   https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm
 #   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#shape
 #   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#shape-2
-jcs_shape="VM.Standard2.2"
+jcs_shape="VM.Standard2.4"
 
 # Define the initial number of Managed Servers that you want to provision in this service instance
 # Supported values are: 1, 2, 4
 # Reference:
 #   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-66E6C3B5-35EA-47ED-B32D-064FBDA950C6
 #   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#server_count
-jcs_managed_server_count="2"
+jcs_managed_server_count="1"
 
 # Define the Weblogic Cluster Type to create
 # Valid values are APPLICATION_CLUSTER or CACHING_CLUSTER
@@ -382,7 +380,13 @@ jcs_admin_user="weblogic"
 # Reference:
 #   https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/create-custom-oracle-java-cloud-service-instance-oci.html#GUID-490B5301-22F3-4C4D-AE21-B84C99BF3EF3
 #   https://www.terraform.io/docs/providers/oraclepaas/r/oraclepaas_java_service_instance.html#admin
-jcs_admin_password="INSERT_HERE_A_STRONG_PASSWORD_FOR_WEBLOGIC_SERVER_ADMINISTRATOR"
+jcs_admin_password="Nk_rW5M#fwH8_xuKyi5R"
+
+# Define if an Oracle-managed OCI Load Balancer will be created or not
+# The LB will be attached to the lbaas subnet
+# Valid values are: true or false
+# Default value: true
+jcs_create_lb="false"
 
 # Define the policy to use for routing requests to the origin servers of the Oracle managed load balancer
 # Valid values are LEAST_CONN, IP_HASH, or ROUND_ROBIN
@@ -451,19 +455,20 @@ bastion_operating_system_version="7.6"
 #   https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
 #   https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm
 #   https://docs.cloud.oracle.com/iaas/Content/Marketplace/Tasks/workingwithlistings.htm
-bastion_image_ocid="NONE"
+bastion_image_ocid="ocid1.image.oc1.iad.aaaaaaaay66pu7z27ltbx2uuatzgfywzixbp34wx7xoze52pk33psz47vlfa"
 
 # Define the SSH public key file that will be installed in the bastion-admin compute instance
 # References:
 #   https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingkeypairs.htm
-bastion_ssh_public_key_file="INSERT_HERE_THE_FULL_PATH_OF_YOUR_SSH_PUBLIC_KEY_FILE_IN_OPENSSH_FORMAT"
+bastion_ssh_public_key_file="/home/kzambran/.ssh/kzambran_oracle.pub"
 
 # Define the Availability Domain where will reside the bastion compute instance
 # Supported Values are: 1, 2 or 3
-bastion_availability_domain="3"
+bastion_availability_domain="1"
 
 # Define the hostname (short part) of the bastion-admin compute instance
 # References:
 #   https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm
 #   https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm
 bastion_hostname_label="bastion-priv" 
+

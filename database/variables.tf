@@ -9,7 +9,7 @@ variable "app_tag" {}
 variable "environment" {}
 
 variable "ad_list" {
-  type = "list"
+  type = list
 }
 
 variable "db_system_availability_domain" {}
