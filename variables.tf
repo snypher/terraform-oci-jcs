@@ -92,6 +92,11 @@ variable "subnet_admin_dnslabel" {
   default = "admin"
 }
 
+variable "dhcp_options_create" {
+  type = "string"
+  default = "false"
+}
+
 variable "dhcp_options_server_type" {
 }
 
@@ -341,6 +346,11 @@ variable "jcs_load_balancing_policy" {
 }
 
 variable "jcs_enable_admin_console" {
+  type = "string"
+  default = "true"
+}
+
+variable "jcs_create_lb" {
   type = "string"
   default = "true"
 }

@@ -72,6 +72,10 @@ subnet_admin_cidr="192.168.1.64/28"
 subnet_admin_private="false"
 # Define the DNS label used for the load balancer layer subnet
 subnet_admin_dnslabel="admin"
+# Define if an additional DHCP Options will be created to be used with a custom configuration
+# Valid values are: true or false
+# Default value is: false
+dhcp_options_create="false"
 # Define the DHCP Options server type to be used by default on each VCN
 dhcp_options_server_type="VcnLocalPlusInternet"
 # Define the DNS Domain Name to be used as Search Domain by default on each VCN

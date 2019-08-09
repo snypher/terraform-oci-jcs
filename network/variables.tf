@@ -34,6 +34,8 @@ variable "subnet_admin_private" {}
 
 variable "subnet_admin_dnslabel" {}
 
+variable "dhcp_options_create" {}
+
 variable "dhcp_options_server_type" {}
 
 variable "dhcp_options_domain_names" {}
