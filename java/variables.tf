@@ -71,6 +71,8 @@ variable "jcs_storage_username" {}
 
 variable "jcs_storage_user_token" {}
 
+variable "jcs_create_lb" {}
+
 variable "jcs_load_balancing_policy" {}
 
 variable "jcs_load_balancer_subnet_id" {}

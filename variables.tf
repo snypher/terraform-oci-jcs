@@ -170,6 +170,16 @@ variable "https_port" {
   default = "443"
 }
 
+variable "wls_admin_port" {
+  type = "string"
+  default = "7002"
+}
+
+variable "wls_sample_port" {
+  type = "string"
+  default = "8001"
+}
+
 variable "db_system_availability_domain" {
   type = "string"
   default = "0"

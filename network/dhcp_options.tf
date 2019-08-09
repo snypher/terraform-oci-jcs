@@ -11,6 +11,5 @@ resource "oci_core_dhcp_options" "nw_dhcp_opt" {
   }
   vcn_id = "${oci_core_vcn.nw_vcn.id}"
   display_name = "NW_DHCPOptions_${var.environment}_${var.app_tag}"
-  count = "${(var.dhcp_options_create == true) ? 1 : 0}"
 }
 

@@ -11,6 +11,16 @@ resource "oci_core_security_list" "nw_sl_data" {
         max = "${var.oracle_service_port}"
         min = "${var.oracle_service_port}"
       }
+    },
+    {
+      destination = "${var.anywhere_cidr}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.default_destination_type}"
+      stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.http_port}"     
+        min = "${var.http_port}"
+      }
     }
   ]
   ingress_security_rules = [
@@ -50,6 +60,12 @@ resource "oci_core_security_list" "nw_sl_app" {
   compartment_id = "${var.compartment_ocid}"
   egress_security_rules = [
     {
+      destination = "${(var.jcs_create_lb == true) ? var.subnet_lbaas_cidr : var.anywhere_cidr}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.default_destination_type}"
+      stateless = "${var.egress_stateless}"
+    },
+    {
       destination = "${var.oracle_service_label}"
       protocol = "${var.tcp_protocol}"
       destination_type = "${var.service_destination_type}"
@@ -68,18 +84,52 @@ resource "oci_core_security_list" "nw_sl_app" {
         max = "${var.database_port}"
         min = "${var.database_port}"
       }
+    },
+    {
+      destination = "${var.anywhere_cidr}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.default_destination_type}"
+      stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.http_port}"     
+        min = "${var.http_port}"
+      }
     }
   ]
   ingress_security_rules = [
     {
       protocol = "${var.tcp_protocol}"
-      source = "${var.subnet_lbaas_cidr}"
+      source = "${(var.jcs_create_lb == true) ? var.subnet_lbaas_cidr : var.anywhere_cidr}"
       source_type = "${var.default_source_type}"
       stateless = "${var.ingress_stateless}"
+      tcp_options {
+        max = "${var.https_port}"
+        min = "${var.https_port}"
+      }
     },
     {
       protocol = "${var.tcp_protocol}"
-      source = "${var.subnet_admin_cidr}"
+      source = "${(var.jcs_create_lb == true) ? var.subnet_lbaas_cidr : var.anywhere_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
+      tcp_options {
+        max = "${var.wls_admin_port}"
+        min = "${var.wls_admin_port}"
+      }
+    },
+    {
+      protocol = "${var.tcp_protocol}"
+      source = "${(var.jcs_create_lb == true) ? var.subnet_lbaas_cidr : var.anywhere_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
+      tcp_options {
+        max = "${var.wls_sample_port}"
+        min = "${var.wls_sample_port}"
+      }
+    },
+    {
+      protocol = "${var.tcp_protocol}"
+      source = "${(var.jcs_create_lb == true) ? var.subnet_admin_cidr : var.anywhere_cidr}"
       source_type = "${var.default_source_type}"
       stateless = "${var.ingress_stateless}"
       tcp_options {
@@ -104,9 +154,23 @@ resource "oci_core_security_list" "nw_sl_admin" {
   egress_security_rules = [
     {
       destination = "${var.vcn_cidr}"
-      protocol = "${var.all_protocol}"
+      protocol = "${var.tcp_protocol}"
       destination_type = "${var.default_destination_type}"
       stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.ssh_port}"
+        min = "${var.ssh_port}"
+      }
+    },
+    {
+      destination = "${var.anywhere_cidr}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.default_destination_type}"
+      stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.http_port}"     
+        min = "${var.http_port}"
+      }
     }
   ]
   ingress_security_rules = [
@@ -128,6 +192,35 @@ resource "oci_core_security_list" "nw_sl_admin" {
       tcp_options {
         max = "${var.http_port}"
         min = "${var.http_port}"
+      }
+    },
+    {
+      protocol = "${var.tcp_protocol}"
+      source = "${var.anywhere_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
+      tcp_options {
+        max = "${var.ssh_port}"
+        min = "${var.ssh_port}"
+      }
+    },
+    {
+      protocol = "${var.icmp_protocol}"
+      source = "${var.anywhere_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
+      icmp_options {
+        type = "${var.icmp_type}" 
+        code = "${var.icmp_code}"
+      }
+    },
+    {
+      protocol = "${var.icmp_protocol}"
+      source = "${var.vcn_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
+      icmp_options {
+        type = "${var.icmp_type}" 
       }
     }
   ]
@@ -140,10 +233,44 @@ resource "oci_core_security_list" "nw_sl_lbaas" {
   compartment_id = "${var.compartment_ocid}"
   egress_security_rules = [
     {
-      destination = "${var.vcn_cidr}"
-      protocol = "${var.all_protocol}"
+      destination = "${var.subnet_app_cidr}"
+      protocol = "${var.tcp_protocol}"
       destination_type = "${var.default_destination_type}"
       stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.wls_admin_port}"
+        min = "${var.wls_admin_port}"
+      }
+    },
+    {
+      destination = "${var.subnet_app_cidr}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.default_destination_type}"
+      stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.wls_sample_port}"
+        min = "${var.wls_sample_port}"
+      }
+    },
+    {
+      destination = "${var.subnet_app_cidr}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.default_destination_type}"
+      stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.https_port}"
+        min = "${var.https_port}"
+      }
+    },
+    {
+      destination = "${var.subnet_app_cidr}"
+      protocol = "${var.tcp_protocol}"
+      destination_type = "${var.default_destination_type}"
+      stateless = "${var.egress_stateless}"
+      tcp_options {
+        max = "${var.http_port}"
+        min = "${var.http_port}"
+      }
     }
   ]
   ingress_security_rules = [
@@ -166,6 +293,32 @@ resource "oci_core_security_list" "nw_sl_lbaas" {
         max = "${var.https_port}"
         min = "${var.https_port}"
       }
+    },
+    {
+      protocol = "${var.tcp_protocol}"
+      source = "${var.anywhere_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
+      tcp_options {
+        max = "${var.wls_admin_port}"
+        min = "${var.wls_admin_port}"
+      }
+    },
+    {
+      protocol = "${var.tcp_protocol}"
+      source = "${var.anywhere_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
+      tcp_options {
+        max = "${var.wls_sample_port}"
+        min = "${var.wls_sample_port}"
+      }
+    },
+    {
+      protocol = "${var.tcp_protocol}"
+      source = "${var.subnet_app_cidr}"
+      source_type = "${var.default_source_type}"
+      stateless = "${var.ingress_stateless}"
     }
   ]
   vcn_id = "${oci_core_vcn.nw_vcn.id}"

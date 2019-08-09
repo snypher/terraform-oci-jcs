@@ -53,6 +53,9 @@ module "network" {
   ssh_port = "${var.ssh_port}"
   http_port = "${var.http_port}"
   https_port = "${var.https_port}"
+  wls_admin_port = "${var.wls_admin_port}"
+  wls_sample_port = "${var.wls_sample_port}"
+  jcs_create_lb = "${var.jcs_create_lb}"
 }
 
 # Database module to create the DB system required for the JCS instance
